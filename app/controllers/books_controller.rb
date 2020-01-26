@@ -13,13 +13,13 @@ class BooksController < ApplicationController
   end
 
   def create
-  	book = Book.new(book_params)#(params[:book])はストロンを使わないときに使う
-  	if book.save
+  	@book = Book.new(book_params)#(params[:book])はストロンを使わないときに使う
+    if @book.save
   	    flash[:success1] = "successfully Created"
   	    redirect_to book_path(book.id)
     else
-      flash[:error] = "Create error"
-      redirect_to books_path
+      @books = Book.all #ifの上に書いてもどっちでもいい。なぜ？
+       render :index
     end
   end
 
@@ -28,14 +28,13 @@ class BooksController < ApplicationController
   end
 
   def update
-	 book = Book.find(params[:id])
-	  if book.update(book_params)
+	 @book = Book.find(params[:id])
+	  if @book.update(book_params)
 	   flash[:success2] = "successfully Updated"
 	   redirect_to book_path(book.id) #なんで引数の中がbookでいいのかはresourcesで決められたから、asで設定した場合もok
 								   #そうじゃなくて引数の中がbookでいいのはbookという変数が作られていてそこに。idをつけるとそこの番号のurlになる
     else
-     flash[:error] = "Update error"
-     redirect_to book_path(book.id)
+      render :show
     end
   end
 
