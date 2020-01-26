@@ -14,9 +14,13 @@ class BooksController < ApplicationController
 
   def create
   	book = Book.new(book_params)#(params[:book])はストロンを使わないときに使う
-  	book.save
-  	flash[:success1] = "Successfully Created"
-  	redirect_to book_path(book.id)
+  	if book.save
+  	    flash[:success1] = "successfully Created"
+  	    redirect_to book_path(book.id)
+    else
+      flash[:error] = "Create error"
+      redirect_to books_path
+    end
   end
 
   def edit
@@ -24,17 +28,21 @@ class BooksController < ApplicationController
   end
 
   def update
-	book = Book.find(params[:id])
-	book.update(book_params)
-	flash[:success2] = "Successfully Updated"
-	redirect_to book_path(book.id) #なんで引数の中がbookでいいのかはresourcesで決められたから、asで設定した場合もok
+	 book = Book.find(params[:id])
+	  if book.update(book_params)
+	   flash[:success2] = "successfully Updated"
+	   redirect_to book_path(book.id) #なんで引数の中がbookでいいのかはresourcesで決められたから、asで設定した場合もok
 								   #そうじゃなくて引数の中がbookでいいのはbookという変数が作られていてそこに。idをつけるとそこの番号のurlになる
+    else
+     flash[:error] = "Update error"
+     redirect_to book_path(book.id)
+    end
   end
 
   def destroy
   	book = Book.find(params[:id])
   	book.destroy
-  	flash[:success3] = "Successfully Destroied"
+  	flash[:success3] = "successfully Destroied"
   	redirect_to books_path #index一覧へ
   end
 

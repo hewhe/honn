@@ -2,9 +2,10 @@
 	<body>
 		<%= flash[:success1] %>
 		<%= flash[:success2] %>
+		<%= flash[:error] %>
 		<p>Title:<%= @book.title %></p>
 		<p>Body:<%= @book.body %></p>
-		<%=link_to "Edit", "/books/#{@book.id}/edit" %>
-		<%=link_to "Back", books_path(@book.id) %>
+		<%=link_to "Edit", edit_book_path(@book.id) %> |
+		<%=link_to "Back", books_path %>
 		<!--<%= link_to "delete", book_path(@book.id), method: :delete, "data-confirm" => "本当に削除しますか？"%>-->
 	</body>
